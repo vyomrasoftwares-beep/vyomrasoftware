@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vyomra Softwares | Innovate Across Technologies</title>
+  <meta name="description" content="Vyomra Softwares – Your partner for Mobile App Development, Website Development, Digital Marketing, and Final Year Projects.">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --bg-deep:    #020d18;
+      --bg-dark:    #041424;
+      --bg-card:    #061c2e;
+      --bg-card2:   #0a2540;
+      --cyan:       #00d4ff;
+      --cyan-dim:   #0099bb;
+      --cyan-glow:  rgba(0,212,255,0.18);
+      --cyan-glow2: rgba(0,212,255,0.08);
+      --text-light: #e0f7ff;
+      --text-muted: #6ea8c0;
+      --border:     rgba(0,212,255,0.18);
+      --grad1: linear-gradient(135deg, #020d18 0%, #041e36 100%);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-light);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ===== PARTICLE CANVAS ===== */
+    #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan-dim); border-radius: 3px; }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(2,13,24,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo .chevrons {
+      display: flex; flex-direction: column; gap: 2px; line-height: 1;
+    }
+    .nav-logo .chevrons svg { display: block; }
+    .nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-logo-text .brand { font-size: 1.35rem; font-weight: 800; color: var(--cyan); letter-spacing: 3px; }
+    .nav-logo-text .sub   { font-size: 0.65rem; font-weight: 400; color: var(--text-muted); letter-spacing: 2px; }
+    .nav-links { list-style: none; display: flex; gap: 36px; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+      font-weight: 600; letter-spacing: 1px; transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px; background: var(--cyan);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: transparent; border: 1.5px solid var(--cyan);
+      color: var(--cyan); padding: 8px 22px; border-radius: 4px;
+      font-family: 'Outfit', sans-serif; font-size: 0.88rem;
+      font-weight: 600; letter-spacing: 1px; cursor: pointer;
+      transition: all 0.3s; text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--cyan); color: var(--bg-deep); box-shadow: 0 0 20px var(--cyan-glow); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--cyan); border-radius: 2px; transition: all 0.3s; display: block; }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 0 5%;
+      background: radial-gradient(ellipse at 50% 40%, rgba(0,212,255,0.06) 0%, transparent 65%);
+    }
+    .hero-inner { max-width: 800px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border);
+      background: var(--cyan-glow2);
+      padding: 6px 18px; border-radius: 50px;
+      font-size: 0.78rem; letter-spacing: 2px; color: var(--cyan);
+      margin-bottom: 30px; font-weight: 600;
+    }
+    .hero-badge .dot { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: pulse-dot 1.5s infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800; line-height: 1.1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero h1 span { color: var(--cyan); -webkit-text-fill-color: var(--cyan); }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--text-muted); margin-bottom: 40px; font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--cyan); color: var(--bg-deep);
+      padding: 14px 36px; border-radius: 4px;
+      font-family: 'Outfit', sans-serif; font-size: 0.95rem;
+      font-weight: 700; letter-spacing: 1px; text-decoration: none;
+      border: none; cursor: pointer;
+      box-shadow: 0 0 24px rgba(0,212,255,0.4);
+      transition: all 0.3s;
+    }
+    .btn-primary:hover { background: #fff; box-shadow: 0 0 40px rgba(0,212,255,0.6); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1.5px solid var(--cyan); color: var(--cyan);
+      padding: 14px 36px; border-radius: 4px;
+      font-family: 'Outfit', sans-serif; font-size: 0.95rem;
+      font-weight: 600; letter-spacing: 1px; text-decoration: none;
+      background: transparent;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover { background: var(--cyan-glow); box-shadow: 0 0 20px var(--cyan-glow); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex; gap: 50px; justify-content: center;
+      margin-top: 70px; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--cyan); display: block; line-height: 1; }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1.5px; margin-top: 4px; }
+
+    /* ===== SECTION SHARED ===== */
+    section { position: relative; z-index: 1; padding: 100px 5%; }
+    .section-label {
+      font-size: 0.72rem; letter-spacing: 4px; color: var(--cyan);
+      font-weight: 700; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-title span { color: var(--cyan); }
+    .section-desc { color: var(--text-muted); max-width: 560px; font-size: 1rem; }
+    .section-head { margin-bottom: 60px; }
+    .cyan-line {
+      width: 50px; height: 3px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      margin: 18px 0;
+    }
+
+    /* ===== SERVICES ===== */
+    #services { background: radial-gradient(ellipse at 80% 50%, rgba(0,212,255,0.04) 0%, transparent 60%); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 30px;
+      position: relative; overflow: hidden;
+      transition: all 0.4s;
+      cursor: default;
+    }
+    .service-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--cyan-glow) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .service-card:hover { border-color: var(--cyan); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,212,255,0.12); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 56px; height: 56px;
+      background: var(--cyan-glow);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: var(--cyan);
+      margin-bottom: 24px;
+      transition: all 0.3s;
+    }
+    .service-card:hover .service-icon { background: var(--cyan); color: var(--bg-deep); box-shadow: 0 0 20px var(--cyan-glow); }
+    .service-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 12px; color: #fff; }
+    .service-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+    .service-list { list-style: none; margin-top: 16px; }
+    .service-list li {
+      font-size: 0.85rem; color: var(--text-muted);
+      padding: 5px 0; display: flex; align-items: center; gap: 10px;
+    }
+    .service-list li::before { content: ''; width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; flex-shrink: 0; }
+
+    /* ===== ABOUT / WHY US ===== */
+    #about { background: radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.04) 0%, transparent 60%); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .about-visual {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .about-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .about-card:hover { border-color: var(--cyan); box-shadow: 0 0 20px var(--cyan-glow2); }
+    .about-card .icon { font-size: 2rem; color: var(--cyan); margin-bottom: 10px; }
+    .about-card strong { display: block; font-size: 1.5rem; font-weight: 800; color: #fff; }
+    .about-card span { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 1px; }
+    .about-features { display: flex; flex-direction: column; gap: 16px; margin-top: 30px; }
+    .feature-row {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 18px;
+      transition: all 0.3s;
+    }
+    .feature-row:hover { border-color: var(--cyan); }
+    .feature-row .fi { color: var(--cyan); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+    .feature-row h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; }
+    .feature-row p { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* ===== PROJECTS / PORTFOLIO ===== */
+    #portfolio { background: radial-gradient(ellipse at 50% 80%, rgba(0,212,255,0.04) 0%, transparent 60%); }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.4s;
+      position: relative;
+    }
+    .project-card:hover { border-color: var(--cyan); transform: translateY(-5px); box-shadow: 0 24px 60px rgba(0,212,255,0.12); }
+    .project-img {
+      width: 100%; height: 190px;
+      background: var(--bg-card2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; color: var(--cyan);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .project-img .proj-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, transparent 60%);
+    }
+    .project-body { padding: 24px 22px; }
+    .project-tag {
+      display: inline-block; font-size: 0.7rem; letter-spacing: 2px;
+      color: var(--cyan); border: 1px solid var(--border);
+      padding: 3px 10px; border-radius: 50px; margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .project-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .project-body p { font-size: 0.87rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ===== CONTACT ===== */
+    #contact {
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.07) 0%, transparent 60%);
+    }
+    .contact-wrap {
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start;
+    }
+    .contact-info h2 { font-size: 2rem; font-weight: 800; margin-bottom: 16px; }
+    .contact-info p { color: var(--text-muted); margin-bottom: 36px; }
+    .contact-detail {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 20px; color: var(--text-muted); font-size: 0.92rem;
+    }
+    .contact-detail .ci {
+      width: 42px; height: 42px;
+      background: var(--cyan-glow);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cyan); font-size: 1rem; flex-shrink: 0;
+    }
+    .social-row { display: flex; gap: 14px; margin-top: 36px; }
+    .social-btn {
+      width: 42px; height: 42px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 1rem; text-decoration: none;
+      transition: all 0.3s;
+    }
+    .social-btn:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 14px var(--cyan-glow); }
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 40px 36px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 0.82rem; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 8px; font-weight: 600; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      color: var(--text-light);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .submit-btn {
+      width: 100%; background: var(--cyan); color: var(--bg-deep);
+      border: none; padding: 14px; border-radius: 6px;
+      font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+      letter-spacing: 1.5px; cursor: pointer;
+      box-shadow: 0 0 24px rgba(0,212,255,0.35);
+      transition: all 0.3s; margin-top: 8px;
+    }
+    .submit-btn:hover { background: #fff; box-shadow: 0 0 40px rgba(0,212,255,0.5); transform: translateY(-2px); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 38px 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+    }
+    .footer-logo { font-size: 1.2rem; font-weight: 800; color: var(--cyan); letter-spacing: 3px; }
+    .footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 0.82rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--cyan); }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* ===== MOBILE NAV ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 68px; left: 0; width: 100%; background: rgba(2,13,24,0.97); padding: 20px 5%; gap: 18px; border-bottom: 1px solid var(--border); }
+      .nav-links.open { display: flex; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    /* ===== FADE-IN ANIMATION ===== */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- Particle Canvas -->
+<canvas id="particles"></canvas>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="chevrons">
+      <svg width="30" height="28" viewBox="0 0 30 28" fill="none">
+        <path d="M5 14L15 4L25 14" stroke="#00d4ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5 24L15 14L25 24" stroke="#00d4ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+      </svg>
+    </div>
+    <div class="nav-logo-text">
+      <span class="brand">VYOMRA</span>
+      <span class="sub">SOFTWARES</span>
+    </div>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#portfolio">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <a href="#contact" class="nav-cta">Get Started</a>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-badge fade-up">
+      <span class="dot"></span>
+      INNOVATE ACROSS TECHNOLOGIES
+    </div>
+    <h1 class="fade-up">We Build <span>Digital</span><br>Experiences</h1>
+    <p class="hero-sub fade-up">Apps · Websites · Digital Marketing · Final Year Projects<br>Transforming ideas into powerful solutions.</p>
+    <div class="hero-btns fade-up">
+      <a href="#services" class="btn-primary">Explore Services</a>
+      <a href="#contact" class="btn-outline">Contact Us</a>
+    </div>
+    <div class="hero-stats fade-up">
+      <div class="stat">
+        <span class="stat-num" data-target="50">0</span>
+        <span class="stat-label">PROJECTS DONE</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="30">0</span>
+        <span class="stat-label">HAPPY CLIENTS</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="3">0</span>
+        <span class="stat-label">YEARS EXPERIENCE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SERVICES ===== -->
+<section id="services">
+  <div class="section-head fade-up">
+    <p class="section-label">What We Do</p>
+    <h2 class="section-title">Our Core <span>Services</span></h2>
+    <div class="cyan-line"></div>
+    <p class="section-desc">End-to-end technology solutions designed to accelerate your business growth.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+      <h3>Mobile App Development</h3>
+      <p>Innovate on iOS & Android with native and cross-platform solutions.</p>
+      <ul class="service-list">
+        <li>Native iOS & Android Apps</li>
+        <li>User-Centric Design</li>
+        <li>Robust & Scalable Solutions</li>
+        <li>Cross-Platform Expertise</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon"><i class="fas fa-desktop"></i></div>
+      <h3>Website Development</h3>
+      <p>Crafting your digital presence with stunning, high-performance websites.</p>
+      <ul class="service-list">
+        <li>Custom Design & Development</li>
+        <li>E-Commerce Solutions</li>
+        <li>Responsive & Mobile-Ready</li>
+        <li>SEO Optimization</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon"><i class="fas fa-bullhorn"></i></div>
+      <h3>Digital Marketing</h3>
+      <p>Boost your online presence and reach the right audience at the right time.</p>
+      <ul class="service-list">
+        <li>SEO & SEM Strategies</li>
+        <li>Social Media Management</li>
+        <li>Content Marketing</li>
+        <li>Email Campaigns</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon"><i class="fas fa-graduation-cap"></i></div>
+      <h3>Final Year Projects</h3>
+      <p>Innovate across technologies — expert guidance for your academic projects.</p>
+      <ul class="service-list">
+        <li>Web Development</li>
+        <li>AI/ML & Data Science</li>
+        <li>Android & iOS Apps</li>
+        <li>IoT & Embedded Systems</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text fade-up">
+      <p class="section-label">Why Choose Us</p>
+      <h2 class="section-title">Built to <span>Innovate</span>,<br>Designed to Deliver</h2>
+      <div class="cyan-line"></div>
+      <p style="color:var(--text-muted);margin-bottom:30px;line-height:1.8;">Vyomra Softwares is a tech-driven company that transforms your ideas into scalable digital products. We combine technical expertise with creative design to deliver outstanding results.</p>
+      <div class="about-features">
+        <div class="feature-row">
+          <i class="fas fa-bolt fi"></i>
+          <div>
+            <h4>Fast Delivery</h4>
+            <p>We deliver projects on time without compromising quality.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <i class="fas fa-shield-alt fi"></i>
+          <div>
+            <h4>Reliable & Secure</h4>
+            <p>Our solutions are built with best-practice security standards.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <i class="fas fa-headset fi"></i>
+          <div>
+            <h4>24/7 Support</h4>
+            <p>We're always here to help you grow and scale after launch.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual fade-up">
+      <div class="about-card">
+        <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+        <strong>20+</strong>
+        <span>APP PROJECTS</span>
+      </div>
+      <div class="about-card">
+        <div class="icon"><i class="fas fa-globe"></i></div>
+        <strong>15+</strong>
+        <span>WEBSITES BUILT</span>
+      </div>
+      <div class="about-card">
+        <div class="icon"><i class="fas fa-chart-line"></i></div>
+        <strong>10+</strong>
+        <span>MARKETING CAMPAIGNS</span>
+      </div>
+      <div class="about-card">
+        <div class="icon"><i class="fas fa-star"></i></div>
+        <strong>5★</strong>
+        <span>AVERAGE RATING</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== PORTFOLIO ===== -->
+<section id="portfolio">
+  <div class="section-head fade-up">
+    <p class="section-label">Our Work</p>
+    <h2 class="section-title">Featured <span>Projects</span></h2>
+    <div class="cyan-line"></div>
+    <p class="section-desc">A glimpse of the solutions we've crafted for our clients across industries.</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="project-card fade-up">
+      <div class="project-img">
+        <i class="fas fa-shopping-cart"></i>
+        <div class="proj-overlay"></div>
+      </div>
+      <div class="project-body">
+        <span class="project-tag">MOBILE APP</span>
+        <h3>Retail Shopping App</h3>
+        <p>A seamless iOS & Android shopping experience that boosted client sales by 40% and improved customer retention.</p>
+      </div>
+    </div>
+    <div class="project-card fade-up">
+      <div class="project-img">
+        <i class="fas fa-building"></i>
+        <div class="proj-overlay"></div>
+      </div>
+      <div class="project-body">
+        <span class="project-tag">WEBSITE</span>
+        <h3>Corporate Website</h3>
+        <p>A modern, responsive corporate website with SEO optimization that doubled organic traffic within 3 months.</p>
+      </div>
+    </div>
+    <div class="project-card fade-up">
+      <div class="project-img">
+        <i class="fas fa-chart-bar"></i>
+        <div class="proj-overlay"></div>
+      </div>
+      <div class="project-body">
+        <span class="project-tag">DIGITAL MARKETING</span>
+        <h3>Social Media Campaign</h3>
+        <p>A targeted multi-platform campaign that grew the client's follower base by 300% and increased leads by 60%.</p>
+      </div>
+    </div>
+    <div class="project-card fade-up">
+      <div class="project-img">
+        <i class="fas fa-brain"></i>
+        <div class="proj-overlay"></div>
+      </div>
+      <div class="project-body">
+        <span class="project-tag">FINAL YEAR PROJECT</span>
+        <h3>AI Disease Detection</h3>
+        <p>An ML-based medical imaging project for final year students that won a national-level tech competition.</p>
+      </div>
+    </div>
+    <div class="project-card fade-up">
+      <div class="project-img">
+        <i class="fas fa-microchip"></i>
+        <div class="proj-overlay"></div>
+      </div>
+      <div class="project-body">
+        <span class="project-tag">IOT PROJECT</span>
+        <h3>Smart Home Automation</h3>
+        <p>An IoT embedded system project for home automation with real-time sensor monitoring and mobile control.</p>
+      </div>
+    </div>
+    <div class="project-card fade-up">
+      <div class="project-img">
+        <i class="fas fa-store"></i>
+        <div class="proj-overlay"></div>
+      </div>
+      <div class="project-body">
+        <span class="project-tag">E-COMMERCE</span>
+        <h3>E-Commerce Platform</h3>
+        <p>Full-stack e-commerce solution with payment gateway integration, inventory management and admin dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info fade-up">
+      <p class="section-label">Get In Touch</p>
+      <h2 class="section-title">Let's <span>Build</span><br>Something Great</h2>
+      <div class="cyan-line"></div>
+      <p>Have a project in mind? We'd love to hear from you. Send us a message and we'll get back to you within 24 hours.</p>
+      <div class="contact-detail">
+        <div class="ci"><i class="fas fa-envelope"></i></div>
+        <span>vyomrasoftwares@gmail.com</span>
+      </div>
+      <div class="contact-detail">
+        <div class="ci"><i class="fas fa-map-marker-alt"></i></div>
+        <span>India</span>
+      </div>
+      <div class="social-row">
+        <a href="https://www.instagram.com/vyomra.softwares?igsh=OXBtbXcyZzE1bGM4&utm_source=qr" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/share/1CNLiUTZnd/?mibextid=wwXIfr" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://wa.me/917204867940" target="_blank" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="contact-form fade-up">
+      <div class="form-row">
+        <div class="form-group">
+          <label>YOUR NAME</label>
+          <input type="text" placeholder="John Doe" id="fname">
+        </div>
+        <div class="form-group">
+          <label>YOUR EMAIL</label>
+          <input type="email" placeholder="john@example.com" id="femail">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>SERVICE NEEDED</label>
+        <select id="fservice">
+          <option value="">Select a service...</option>
+          <option>Mobile App Development</option>
+          <option>Website Development</option>
+          <option>Digital Marketing</option>
+          <option>Final Year Project</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>YOUR MESSAGE</label>
+        <textarea placeholder="Tell us about your project..." id="fmessage"></textarea>
+      </div>
+      <button class="submit-btn" onclick="handleSubmit()">SEND MESSAGE &nbsp;<i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo">VYOMRA</div>
+  <p class="footer-copy">&copy; 2026 Vyomra Softwares. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#portfolio">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+  /* ----- Particle system ----- */
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.r = Math.random() * 1.8 + 0.4;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = (Math.random() - 0.5) * 0.35;
+      this.alpha = Math.random() * 0.5 + 0.15;
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,212,255,${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 90; i++) particles.push(new Particle());
+
+  function connectParticles() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0,212,255,${0.06 * (1 - dist/110)})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    connectParticles();
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  /* ----- Scroll fade-up ----- */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* ----- Navbar scroll ----- */
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.boxShadow = window.scrollY > 30 ? '0 4px 30px rgba(0,212,255,0.08)' : 'none';
+  });
+
+  /* ----- Counter animation ----- */
+  function animateCounter(el, target) {
+    let current = 0;
+    const step = Math.ceil(target / 40);
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current + (target >= 3 && target <= 5 ? '★' : '+');
+    }, 45);
+  }
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('[data-target]');
+        nums.forEach(el => animateCounter(el, parseInt(el.dataset.target)));
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) statObserver.observe(heroStats);
+
+  /* ----- Mobile nav toggle ----- */
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  /* ----- Form submit ----- */
+  function handleSubmit() {
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    const msg = document.getElementById('fmessage').value.trim();
+    if (!name || !email || !msg) { alert('Please fill in all required fields.'); return; }
+    alert('Thank you, ' + name + '! We\'ll get back to you shortly.');
+    document.getElementById('fname').value = '';
+    document.getElementById('femail').value = '';
+    document.getElementById('fservice').value = '';
+    document.getElementById('fmessage').value = '';
+  }
+</script>
+</body>
+</html>
